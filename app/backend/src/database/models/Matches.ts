@@ -34,10 +34,6 @@ MatchesModel.init(
     homeTeamId: {
       allowNull: false,
       type: DataTypes.INTEGER,
-      references: {
-        model: TeamsModel,
-        key: 'id',
-      },
     },
     homeTeamGoals: {
       allowNull: false,
@@ -46,10 +42,6 @@ MatchesModel.init(
     awayTeamId: {
       allowNull: false,
       type: DataTypes.INTEGER,
-      references: {
-        model: TeamsModel,
-        key: 'id',
-      },
     },
     awayTeamGoals: {
       allowNull: false,

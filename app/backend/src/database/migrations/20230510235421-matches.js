@@ -13,29 +13,33 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Teams',
+          model: 'teams',
           key: 'id',
         },
-        home_team_goals: {
-          type: Sequelize.INTEGER,
-          allowNull: false,
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      },
+      home_team_goals: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      away_team_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'teams',
+          key: 'id',
         },
-        away_team_id: {
-          type: Sequelize.INTEGER,
-          allowNull: false,
-          references: {
-            model: 'Teams',
-            key: 'id',
-          },
-        },
-        away_team_goals: {
-          type: Sequelize.INTEGER,
-          allowNull: false,
-        },
-        in_progress: {
-          type: Sequelize.BOOLEAN,
-          allowNull: false,
-        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      },
+      away_team_goals: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      in_progress: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
       },
     });
   },
