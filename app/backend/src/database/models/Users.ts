@@ -11,7 +11,7 @@ export interface UserAttributes {
 
 export type UserCreationAttributes = Omit<UserAttributes, 'id'>;
 
-class UserModel extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
+class UsersModel extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
   declare id: number;
   declare username: string;
   declare role: string;
@@ -19,7 +19,7 @@ class UserModel extends Model<UserAttributes, UserCreationAttributes> implements
   declare email: string;
 }
 
-UserModel.init(
+UsersModel.init(
   {
     id: {
       allowNull: false,
@@ -54,4 +54,4 @@ UserModel.init(
   },
 );
 
-export default UserModel;
+export default UsersModel;
