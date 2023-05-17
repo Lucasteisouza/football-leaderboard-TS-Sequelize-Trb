@@ -1,5 +1,7 @@
 import TeamsModel from '../database/models/Teams';
-import MatchesModel, { MatchesAttributes } from '../database/models/Matches';
+import MatchesModel,
+{ MatchesAttributes,
+  MatchesCreationAttributes } from '../database/models/Matches';
 
 interface FinishedMatchAttr {
   homeTeamGoals: number;
@@ -51,6 +53,22 @@ class MatchesServices {
       awayTeamGoals,
     });
     return { homeTeamGoals, awayTeamGoals };
+  }
+
+  public static async createMatch(
+    homeTeamId: number,
+    awayTeamId: number,
+    homeTeamGoals: number,
+    awayTeamGoals: number,
+  ): Promise<MatchesCreationAttributes> {
+    const match = await MatchesModel.create({
+      homeTeamId,
+      awayTeamId,
+      homeTeamGoals,
+      awayTeamGoals,
+      inProgress: true,
+    }, {});
+    return match.toJSON();
   }
 }
 
