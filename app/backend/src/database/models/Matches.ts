@@ -56,7 +56,7 @@ MatchesModel.init(
     underscored: true,
     sequelize: db,
     timestamps: false,
-    tableName: 'teams',
+    tableName: 'matches',
   },
 );
 

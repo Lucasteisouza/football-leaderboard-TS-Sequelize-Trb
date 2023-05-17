@@ -14,6 +14,11 @@ export const createJWT = (email: string) => {
 };
 
 export const verifyJWT = (token: string) => {
-  const decoded = jwt.verify(token, secret);
-  return decoded;
+  try {
+    const decoded = jwt.verify(token, secret);
+    console.log(decoded);
+    return decoded;
+  } catch (err) {
+    return false;
+  }
 };

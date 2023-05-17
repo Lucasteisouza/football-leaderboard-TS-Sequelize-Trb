@@ -47,7 +47,6 @@ const hasValidToken = (req: Request, res: Response, next: NextFunction) => {
     return res.status(401).json({ message: 'Token not found' });
   }
   const decoded = verifyJWT(authorization);
-  console.log(decoded);
   if (!decoded) {
     return res.status(401).json({ message: 'Token must be a valid token' });
   }
