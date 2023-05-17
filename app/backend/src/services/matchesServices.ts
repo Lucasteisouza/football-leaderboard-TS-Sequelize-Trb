@@ -30,14 +30,25 @@ class MatchesServices {
 
   public static async finishMatch(
     matchId: number,
-    homeTeamGoals: number,
-    awayTeamGoals: number,
-  ):Promise<FinishedMatchAttr> {
+  ):Promise<string> {
     const match = await MatchesModel.findByPk(matchId);
     if (!match) throw new Error('Match not found');
-    match.update({ homeTeamGoals,
-      awayTeamGoals,
+    match.update({
       inProgress: false,
+    });
+    return 'Finished';
+  }
+
+  public static async updateScore(
+    matchId: number,
+    homeTeamGoals: number,
+    awayTeamGoals: number,
+  ): Promise<FinishedMatchAttr> {
+    const match = await MatchesModel.findByPk(matchId);
+    if (!match) throw new Error('Match not found');
+    match.update({
+      homeTeamGoals,
+      awayTeamGoals,
     });
     return { homeTeamGoals, awayTeamGoals };
   }

@@ -6,5 +6,6 @@ const router = Router();
 
 router.get('/', MatchesControllers.getAllMatches);
 router.patch('/:id/finish', loginInfo.hasValidToken, MatchesControllers.finishMatch);
+router.patch('/:id', loginInfo.hasValidToken, MatchesControllers.updateScore);
 
 export default router;

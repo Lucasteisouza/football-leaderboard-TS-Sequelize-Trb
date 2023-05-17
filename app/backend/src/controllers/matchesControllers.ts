@@ -16,13 +16,25 @@ class MatchesControllers {
 
   public static async finishMatch(req: Request, res: Response) {
     const { id } = req.params;
-    const { homeTeamGoals, awayTeamGoals } = req.body;
     const finishedMatch = await MatchesServices.finishMatch(
+      parseInt(id, 10),
+    );
+    res.status(200).json({ message: finishedMatch });
+  }
+
+  public static async updateScore(req: Request, res: Response) {
+    const { id } = req.params;
+    const { homeTeamGoals, awayTeamGoals } = req.body;
+    if (!homeTeamGoals || !awayTeamGoals) {
+      res.status(400).json({ message: 'Missing score' });
+      return;
+    }
+    const updatedMatch = await MatchesServices.updateScore(
       parseInt(id, 10),
       homeTeamGoals,
       awayTeamGoals,
     );
-    res.status(200).json(finishedMatch);
+    res.status(200).json(updatedMatch);
   }
 }
 
