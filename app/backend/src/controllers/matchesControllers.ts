@@ -46,12 +46,12 @@ class MatchesControllers {
       return res.status(400).json({ message: 'Missing parameters' });
     }
     if (homeTeamId === awayTeamId) {
-      return res.status(400)
+      return res.status(422)
         .json({ message: 'It is not possible to create a match with two equal teams' });
     }
     const homeTeam = await TeamsModels.findByPk(homeTeamId);
     const awayTeam = await TeamsModels.findByPk(awayTeamId);
-    if (!homeTeam || !awayTeam) return res.status(400).json({ message: NO_SUCH });
+    if (!homeTeam || !awayTeam) return res.status(422).json({ message: NO_SUCH });
     const match = await MatchesServices.createMatch(
       homeTeamId,
       awayTeamId,
