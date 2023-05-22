@@ -48,7 +48,7 @@ class MatchesServices {
   ): Promise<FinishedMatchAttr> {
     const match = await MatchesModel.findByPk(matchId);
     if (!match) throw new Error('Match not found');
-    match.update({
+    await match.update({
       homeTeamGoals,
       awayTeamGoals,
     });

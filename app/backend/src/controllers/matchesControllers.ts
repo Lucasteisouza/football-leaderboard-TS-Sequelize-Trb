@@ -51,7 +51,7 @@ class MatchesControllers {
     }
     const homeTeam = await TeamsModels.findByPk(homeTeamId);
     const awayTeam = await TeamsModels.findByPk(awayTeamId);
-    if (!homeTeam || !awayTeam) return res.status(422).json({ message: NO_SUCH });
+    if (!homeTeam || !awayTeam) return res.status(404).json({ message: NO_SUCH });
     const match = await MatchesServices.createMatch(
       homeTeamId,
       awayTeamId,
