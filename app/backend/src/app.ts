@@ -29,7 +29,7 @@ class App {
     this.app.use('/teams', teamRoutes);
     this.app.use('/login', loginRoutes);
     this.app.use('/matches', matchesRoutes);
-    this.app.use('/leaderboards', leaderBoardsRoutes);
+    this.app.use('/leaderboard', leaderBoardsRoutes);
   }
 
   public start(PORT: string | number):void {

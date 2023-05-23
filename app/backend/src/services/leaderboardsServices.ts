@@ -18,36 +18,51 @@ export interface LeaderboardItemNoName {
 export type andNoPoints = Omit<LeaderboardItemNoName, 'totalPoints'>;
 
 export interface LeaderboardItem extends LeaderboardItemNoName {
-  teamName: string;
+  name: string;
 }
 
 class LeaderboardsServices {
   public static async getLeaderboards():Promise<LeaderboardItem[]> {
     const teamList = await TeamServices.getAllTeams();
     const matchList = await MatchServices.getAllMatches(undefined);
-    const leaderBoardList = this.verifyStats(teamList, matchList);
-    return leaderBoardList;
+    const finishedList = matchList.filter((match) => match.inProgress === false);
+    const leaderBoardList = this.verifyStats(teamList, finishedList);
+    const orderedLeaderboards = this.sortLeaderboard(leaderBoardList);
+    return orderedLeaderboards;
   }
 
   public static async getLeaderboardsHome(): Promise<LeaderboardItem[]> {
     const teamList = await TeamServices.getAllTeams();
     const matchList = await MatchServices.getAllMatches(undefined);
-    const leaderBoardList = this.verifyStatsHome(teamList, matchList);
-    return leaderBoardList;
+    const finishedList = matchList.filter((match) => match.inProgress === false);
+    const leaderBoardList = this.verifyStatsHome(teamList, finishedList);
+    const orderedLeaderboards = this.sortLeaderboard(leaderBoardList);
+
+    return orderedLeaderboards;
   }
 
   public static async getLeaderboardsAway(): Promise<LeaderboardItem[]> {
     const teamList = await TeamServices.getAllTeams();
     const matchList = await MatchServices.getAllMatches(undefined);
-    const leaderBoardList = this.verifyStatsAway(teamList, matchList);
-    return leaderBoardList;
+    const finishedList = matchList.filter((match) => match.inProgress === false);
+    const leaderBoardList = this.verifyStatsAway(teamList, finishedList);
+    const orderedLeaderboards = this.sortLeaderboard(leaderBoardList);
+    return orderedLeaderboards;
+  }
+
+  private static sortLeaderboard(leaderboard: LeaderboardItem[]): LeaderboardItem[] {
+    const orderedLeaderboards = leaderboard.sort((a, b) => b.totalPoints - a.totalPoints
+    || b.totalVictories - a.totalVictories
+    || b.goalsBalance - a.goalsBalance
+    || b.goalsOwn - a.goalsOwn);
+    return orderedLeaderboards;
   }
 
   private static verifyStats(t: TeamsAttributes[], m: MatchesAttributes[]): LeaderboardItem[] {
     const teamList = t.map((team) => {
       const teamStats = this.verifyMatchStats(m, team.id);
       return ({
-        teamName: team.teamName,
+        name: team.teamName,
         totalPoints: teamStats.totalVictories * 3 + teamStats.totalDraws,
         totalGames: teamStats.totalGames,
         totalVictories: teamStats.totalVictories,
@@ -66,7 +81,7 @@ class LeaderboardsServices {
     const teamList = t.map((team) => {
       const teamStats = this.verifyMatchStatsHome(m, team.id);
       return ({
-        teamName: team.teamName,
+        name: team.teamName,
         totalPoints: teamStats.totalVictories * 3 + teamStats.totalDraws,
         totalGames: teamStats.totalGames,
         totalVictories: teamStats.totalVictories,
@@ -85,7 +100,7 @@ class LeaderboardsServices {
     const teamList = t.map((team) => {
       const teamStats = this.verifyMatchStatsAway(m, team.id);
       return ({
-        teamName: team.teamName,
+        name: team.teamName,
         totalPoints: teamStats.totalVictories * 3 + teamStats.totalDraws,
         totalGames: teamStats.totalGames,
         totalVictories: teamStats.totalVictories,
@@ -117,7 +132,7 @@ class LeaderboardsServices {
       goalsFavor,
       goalsOwn,
       goalsBalance: goalsFavor - goalsOwn,
-      efficiency: Number(((totalPoints / (totalGames * 3)) / 100).toFixed(2)),
+      efficiency: Number(((totalPoints / (totalGames * 3)) * 100).toFixed(2)),
     };
   }
 
@@ -136,7 +151,7 @@ class LeaderboardsServices {
       goalsFavor,
       goalsOwn,
       goalsBalance: goalsFavor - goalsOwn,
-      efficiency: Number(((totalPoints / (totalGames * 3)) / 100).toFixed(2)),
+      efficiency: Number(((totalPoints / (totalGames * 3)) * 100).toFixed(2)),
     };
   }
 
@@ -155,7 +170,7 @@ class LeaderboardsServices {
       goalsFavor,
       goalsOwn,
       goalsBalance: goalsFavor - goalsOwn,
-      efficiency: Number(((totalPoints / (totalGames * 3)) / 100).toFixed(2)),
+      efficiency: Number(((totalPoints / (totalGames * 3)) * 100).toFixed(2)),
     };
   }
 
